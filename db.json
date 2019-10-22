@@ -1,0 +1,7 @@
+{
+  "users": [
+    { "id": 1, "name": "pau", "language": "es" },
+    { "id": 2, "name": "mike", "language": "en" },
+    { "id": 3, "name": "chiara", "language": "it" }
+  ]
+}
