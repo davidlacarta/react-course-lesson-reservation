@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 import LoginForm from './LoginForm';
 
@@ -19,18 +20,19 @@ const Header = styled.header`
   }
 `;
 
-const User = ({user, setUser}) => {
+const UserInfo = () => {
+  const user = useSelector(state => state.user);
   if (user) {
     return <span>{user.name}</span>;
   }
 
-  return <LoginForm setUser={setUser} />;
+  return <LoginForm />;
 };
 
-const ReservationHeader = ({user, setUser, language}) => {
+const ReservationHeader = ({ language }) => {
   return (
     <Header>
-      <User user={user} setUser={setUser} />
+      <UserInfo />
       <span>{language}</span>
     </Header>
   );

@@ -1,28 +1,27 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
+import { Provider } from 'react-redux';
 
+import store from './store';
+
+// Components
 import ReservationHeader from './ReservationHeader';
 import ShoppingCart from './ShoppingCart';
 import SearchResults from './SearchResults';
 
 const App = () => {
-  const [user, setUser] = useState();
-  const [lang, setLang] = useState('es');
+  const [lang] = useState('es');
   const [cartItems, setCartItems] = useState([]);
-
-  useEffect(() => {
-    setLang((user && user.language) || 'es');
-  }, [user, setLang]);
 
   const addItem = item => {
     setCartItems([...cartItems, item]);
   };
 
   return (
-    <main>
-      <ReservationHeader user={user} language={lang} setUser={setUser} />
+    <Provider store={store}>
+      <ReservationHeader language={lang} />
       <ShoppingCart items={cartItems} />
       <SearchResults addItem={addItem} />
-    </main>
+    </Provider>
   );
 };
 
