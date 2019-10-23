@@ -27,13 +27,21 @@ const api = {
 
     return false;
   },
+
+  getResults: async () => {
+    const response = await fetch(`/hotels`, {
+      headers: {...api.JSON},
+    });
+    const results = await response.json();
+    return results;
+  },
 };
 
 const sleep = (ms = Math.random() * 3000) => {
   return new Promise(resolve => setTimeout(resolve, ms));
-}
+};
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = ({setUser}) => {
   const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -60,13 +68,13 @@ const LoginForm = ({ setUser }) => {
   );
 };
 
-const User = ({ user, setUser }) => {
+const User = ({user, setUser}) => {
   if (user) {
-    return <span>{user.name}</span>
+    return <span>{user.name}</span>;
   }
 
-  return <LoginForm setUser={setUser} />
-}
+  return <LoginForm setUser={setUser} />;
+};
 
 const ReservationHeader = ({user, setUser, language}) => {
   return (
@@ -77,20 +85,48 @@ const ReservationHeader = ({user, setUser, language}) => {
   );
 };
 
+const Hotel = styled.article`
+  margin: 2em;
+  padding: 0.5em 2em;
+  border: 2px solid lightblue;
+`
+
+const SearchResults = () => {
+  const [results, setResults] = useState();
+
+  useEffect(() => {
+    const getResults = async () => {
+      const response = await api.getResults();
+      await sleep();
+      setResults(response);
+    };
+
+    getResults();
+  }, []);
+
+  if (!results) {
+    return 'loading...';
+  }
+
+  return results.map(item => (
+    <Hotel key={`HOTEL|${item.id}`}>
+      <h2>{item.name}</h2>
+    </Hotel>
+  ));
+};
+
 const App = () => {
   const [user, setUser] = useState();
   const [lang, setLang] = useState('es');
 
   useEffect(() => {
-    if (user) {
-      setLang(user.language);
-    }
-  },[user, setLang]);
+    setLang((user && user.language) || 'es');
+  }, [user, setLang]);
 
   return (
     <main>
       <ReservationHeader user={user} language={lang} setUser={setUser} />
-      woot
+      <SearchResults />
     </main>
   );
 };

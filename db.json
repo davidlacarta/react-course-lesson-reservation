@@ -1,7 +1,14 @@
 {
   "users": [
-    { "id": 1, "name": "pau", "language": "es" },
-    { "id": 2, "name": "mike", "language": "en" },
-    { "id": 3, "name": "chiara", "language": "it" }
+    {"id": 1, "name": "pau", "language": "es"},
+    {"id": 2, "name": "mike", "language": "en"},
+    {"id": 3, "name": "chiara", "language": "it"}
+  ],
+  "hotels": [
+    {"id": 1000, "name": "Melia Castilla"},
+    {"id": 2000, "name": "Gran Melia Victoria"},
+    {"id": 3000, "name": "Innside Palma Bosque"},
+    {"id": 4000, "name": "Palma Bellver"},
+    {"id": 5000, "name": "Palma Bay"}
   ]
 }
