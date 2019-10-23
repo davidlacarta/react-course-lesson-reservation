@@ -11,6 +11,10 @@ const Header = styled.header`
     font-weight: bold;
     margin-right: 1em;
   }
+
+  span:last-child {
+    margin-left: 1em;
+  }
 `;
 
 const api = {
@@ -86,12 +90,14 @@ const ReservationHeader = ({user, setUser, language}) => {
 };
 
 const Hotel = styled.article`
+  display: flex;
+  justify-content: space-between;
   margin: 2em;
   padding: 0.5em 2em;
   border: 2px solid lightblue;
-`
+`;
 
-const SearchResults = () => {
+const SearchResults = ({addItem}) => {
   const [results, setResults] = useState();
 
   useEffect(() => {
@@ -111,22 +117,43 @@ const SearchResults = () => {
   return results.map(item => (
     <Hotel key={`HOTEL|${item.id}`}>
       <h2>{item.name}</h2>
+      <button onClick={() => addItem(item)}>Buy!</button>
     </Hotel>
   ));
 };
 
+const CartContainer = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 0em 2em;
+`;
+
+const ShoppingCart = ({items}) => (
+  <CartContainer>
+    <p>
+      <b>{items.length}</b> items
+    </p>
+  </CartContainer>
+);
+
 const App = () => {
   const [user, setUser] = useState();
   const [lang, setLang] = useState('es');
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     setLang((user && user.language) || 'es');
   }, [user, setLang]);
 
+  const addItem = item => {
+    setCartItems([...cartItems, item]);
+  };
+
   return (
     <main>
       <ReservationHeader user={user} language={lang} setUser={setUser} />
-      <SearchResults />
+      <ShoppingCart items={cartItems} />
+      <SearchResults addItem={addItem} />
     </main>
   );
 };
